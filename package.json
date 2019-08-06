@@ -1,6 +1,7 @@
 {
-  "name": "rack-querystring",
-  "description": "Parse and stringify Rack-style querystrings",
+  "name": "rackstring",
+  "description": "Rack's query string parser, ported to JavaScript",
+  "repository": "https://github.com/nporteschaikin/rackstring",
   "main": "./dist/index.js",
   "license": "MIT",
   "scripts": {
