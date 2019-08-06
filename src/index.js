@@ -1,4 +1,4 @@
 import parse from "./parse"
 import stringify from "./stringify"
 
-export { parse }
+export { parse, stringify }

@@ -1,4 +1,4 @@
-import parse from "./../src/parse"
+import { parse } from "./../src"
 
 test("parses basic query params", () => {
   expect(parse("foo=bar")).toEqual({ foo: "bar" })

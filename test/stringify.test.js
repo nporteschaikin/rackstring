@@ -1,4 +1,4 @@
-import stringify from "./../src/stringify"
+import { stringify } from "./../src"
 
 test("stringifies simple object", () => {
   expect(stringify({ foo: "bar" })).toEqual("foo=bar")
