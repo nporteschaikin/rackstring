@@ -1,0 +1,17 @@
+{
+  "name": "rack-querystring",
+  "description": "Parse and stringify Rack-style querystrings",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0"
+  }
+}
