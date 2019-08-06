@@ -31,3 +31,14 @@ test("encodes keys if encodeKeys = true", () => {
     stringify({ "foo/x": { "meow d": "bar" } }, { encodeKeys: true })
   ).toEqual("foo%2Fx%5Bmeow%20d%5D=bar")
 })
+
+test("handles undefined values", () => {
+  expect(stringify({ foo: undefined, bar: "baz" })).toEqual("foo=&bar=baz")
+})
+
+test("handles null values", () => {
+  expect(stringify({ foo: null, bar: "baz" })).toEqual("foo=&bar=baz")
+  expect(stringify({ foo: { a: null, bar: "baz" } })).toEqual(
+    "foo[a]=&foo[bar]=baz"
+  )
+})
