@@ -1,4 +1,4 @@
-import { isArray, isPlainObject } from "./helpers"
+import { isArray, isPlainObject, objectHas } from "./helpers"
 
 const normalizeOptions = (opts) => ({
   delimiter: opts.delimiter || "&",
@@ -6,7 +6,6 @@ const normalizeOptions = (opts) => ({
   depth: opts.depth || Infinity,
 })
 
-const hasKey = (obj, key) => typeof obj[key] !== "undefined"
 const assertArray = (key, obj) => {
   if (!isArray(obj)) {
     throw new Error(
@@ -55,7 +54,7 @@ const normalizeParams = (params, key, value, depth) => {
       assertArray(k, params[k])
       const last = params[k][params[k].length - 1]
 
-      if (isPlainObject(last) && !hasKey(last, afterMatch[1])) {
+      if (isPlainObject(last) && !objectHas(last, afterMatch[1])) {
         normalizeParams(last, afterMatch[1], value, depth - 1)
       } else {
         params[k].push(normalizeParams({}, afterMatch[1], value, depth - 1))
