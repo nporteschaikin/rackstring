@@ -21,10 +21,16 @@ test("parses array of objects", () => {
 })
 
 test("parses array of objects with arrays", () => {
-  expect(
-    parse("a[][x]=b&a[][y]=c&a[][z][]=foo&a[][x]=d&a[][y]=e&a[][z][]=bar")
-  ).toEqual({
-    a: [{ x: "b", y: "c", z: ["foo"] }, { x: "d", y: "e", z: ["bar"] }],
+  expect(() =>
+    parse("a[][x]=b&a[][y]=c&a[][z][]=foo&a[][x]=d&a[][y]=e&a[][z][]=bar", {
+      depth: 1,
+    })
+  ).toThrow(RangeError)
+})
+
+test("supports depth option", () => {
+  expect(parse("a[][x]=b&a[][y]=c&a[][x]=d&a[][y]=e")).toEqual({
+    a: [{ x: "b", y: "c" }, { x: "d", y: "e" }],
   })
 })
 

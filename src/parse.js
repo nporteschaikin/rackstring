@@ -23,7 +23,11 @@ const assertPlainObject = (key, obj) => {
   }
 }
 
-const normalizeParams = (params, key, value) => {
+const normalizeParams = (params, key, value, depth) => {
+  if (depth <= 0) {
+    throw new RangeError("Exceeded maximum depth")
+  }
+
   const keyMatch = key.match(/^[\[\]]*([^\[\]]+)\]*/) || []
   const k = keyMatch[1] || ""
   const after = key.substr(keyMatch[0].length)
@@ -52,14 +56,14 @@ const normalizeParams = (params, key, value) => {
       const last = params[k][params[k].length - 1]
 
       if (isPlainObject(last) && !hasKey(last, afterMatch[1])) {
-        normalizeParams(last, afterMatch[1], value)
+        normalizeParams(last, afterMatch[1], value, depth - 1)
       } else {
-        params[k].push(normalizeParams({}, afterMatch[1], value))
+        params[k].push(normalizeParams({}, afterMatch[1], value, depth - 1))
       }
     } else {
       params[k] = params[k] || {}
       assertPlainObject(k, params[k])
-      normalizeParams(params[k], after, value)
+      normalizeParams(params[k], after, value, depth - 1)
     }
   }
 
@@ -73,7 +77,7 @@ export default (str, opts = {}) => {
 
   qs.split(options.delimiter).forEach((part) => {
     const [key, value] = part.split("=").map((p) => options.decoder(p))
-    normalizeParams(params, key, value)
+    normalizeParams(params, key, value, options.depth)
   })
 
   return params
