@@ -1,13 +1,36 @@
 {
   "name": "rackstring",
   "description": "Rack's query string parser, ported to JavaScript",
-  "repository": "https://github.com/nporteschaikin/rackstring",
-  "main": "./dist/index.js",
+  "version": "1.0.0",
   "license": "MIT",
+  "contributors": [
+    {
+      "name": "Noah Portes Chaikin",
+      "email": "noah@porteschaikin.com",
+      "url": "https://porteschaikin.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nporteschaikin/rackstring"
+  },
+  "keywords": [
+    "parse",
+    "qs",
+    "query",
+    "querystring",
+    "rack",
+    "stringify",
+    "url"
+  ],
+  "engines": {
+    "node": ">= 0.6"
+  },
+  "main": "./dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
     "test": "jest",
-    "prepare": "npm run build"
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
