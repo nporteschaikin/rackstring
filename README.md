@@ -43,4 +43,4 @@ assert.deepEqual(obj, { foo: [{ a: "bar", b: "baz"}, {a: "meow", b: "ruff"}] })
 
 ## License
 
-See [LICENSE.md](LICENSE.md).
+See [LICENSE](LICENSE).
