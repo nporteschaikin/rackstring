@@ -42,5 +42,5 @@ export default (obj, opts = {}) => {
     parts.push(stringify(key, obj[key], options))
   }
 
-  return parts.join(options.delimiter)
+  return parts.filter((p) => p.length > 0).join(options.delimiter)
 }

@@ -42,3 +42,7 @@ test("handles null values", () => {
     "foo[a]=&foo[bar]=baz"
   )
 })
+
+test("handles empty arrays", () => {
+  expect(stringify({ foo: [], bar: "baz" })).toEqual("bar=baz")
+})
