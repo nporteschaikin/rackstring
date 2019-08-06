@@ -3,7 +3,7 @@ import { isArray, isPlainObject, objectHas } from "./helpers"
 const normalizeOptions = (opts) => ({
   delimiter: opts.delimiter || "&",
   decoder: opts.decoder || decodeURIComponent,
-  depth: opts.depth || Infinity,
+  depth: opts.depth || 5,
 })
 
 const assertArray = (key, obj) => {
