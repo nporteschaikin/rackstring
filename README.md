@@ -50,8 +50,10 @@ assert.equal(str, "foo[][a]=bar&foo[][b]=baz&foo[a]=meow&foo[b]=ruff")
 
 Optionally, you can URL-encode keys with the `encodeKeys` option:
 
+```js
 const str = querystring.stringify({ foo: [{ a: "bar", b: "baz"}, {a: "meow", b: "ruff"}] }, { encodeKeys: true })
 assert.equal(str, "foo%5B%5D%5Ba%5D=bar&foo%5B%5D%5Bb%5D=baz&foo%5B%5D%5Ba%5D=meow&foo%5B%5D%5Bb%5D=ruff")
+```
 
 ## License
 
