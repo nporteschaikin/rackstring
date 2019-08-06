@@ -6,6 +6,14 @@ const normalizeOptions = (opts) => ({
   encodeKeys: !!opts.encodeKeys,
 })
 
+const formatValue = (value, encoder) => {
+  if (value === null || typeof value === "undefined") {
+    return encoder("")
+  }
+
+  return encoder(value)
+}
+
 const stringify = (key, value, options) => {
   if (isArray(value)) {
     return value
@@ -23,7 +31,7 @@ const stringify = (key, value, options) => {
   }
 
   const keyEncoder = options.encodeKeys ? options.encoder : (str) => str
-  return `${keyEncoder(key)}=${options.encoder(value.toString())}`
+  return `${keyEncoder(key)}=${formatValue(value, options.encoder)}`
 }
 
 export default (obj, opts = {}) => {
@@ -33,5 +41,6 @@ export default (obj, opts = {}) => {
   for (const key in obj) {
     parts.push(stringify(key, obj[key], options))
   }
+
   return parts.join(options.delimiter)
 }
