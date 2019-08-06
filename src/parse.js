@@ -29,7 +29,7 @@ const normalizeParams = (params, key, value, depth) => {
 
   const keyMatch = key.match(/^[\[\]]*([^\[\]]+)\]*/) || []
   const k = keyMatch[1] || ""
-  const after = key.substr(keyMatch[0].length)
+  const after = key.substr((keyMatch[0] || "").length)
 
   if (k.length === 0) {
     if (value !== null && key == "[]") {
