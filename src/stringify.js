@@ -1,35 +1,35 @@
-import {isArray, isPlainObject} from './helpers';
+import { isArray, isPlainObject } from "./helpers"
 
-const normalizeOptions = opts => ({
-  delimiter: opts.delimiter || '&',
+const normalizeOptions = (opts) => ({
+  delimiter: opts.delimiter || "&",
   encoder: opts.encoder || encodeURIComponent,
-});
+})
 
 const stringify = (key, value, options) => {
   if (isArray(value)) {
     return value
-      .map(child => stringify(`${key}[]`, child, options))
-      .join(options.delimiter);
+      .map((child) => stringify(`${key}[]`, child, options))
+      .join(options.delimiter)
   }
 
   if (isPlainObject(value)) {
-    const parts = [];
+    const parts = []
     for (const childKey in value) {
-      parts.push(stringify(`${key}[${childKey}]`, value[childKey], options));
+      parts.push(stringify(`${key}[${childKey}]`, value[childKey], options))
     }
 
-    return parts.join(options.delimiter);
+    return parts.join(options.delimiter)
   }
 
-  return `${key}=${options.encoder(value.toString())}`;
-};
+  return `${key}=${options.encoder(value.toString())}`
+}
 
 export default (obj, opts = {}) => {
-  const options = normalizeOptions(opts);
-  const parts = [];
+  const options = normalizeOptions(opts)
+  const parts = []
 
   for (const key in obj) {
-    parts.push(stringify(key, obj[key], options));
+    parts.push(stringify(key, obj[key], options))
   }
-  return parts.join(options.delimiter);
-};
+  return parts.join(options.delimiter)
+}
