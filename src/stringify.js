@@ -3,6 +3,7 @@ import { isArray, isPlainObject } from "./helpers"
 const normalizeOptions = (opts) => ({
   delimiter: opts.delimiter || "&",
   encoder: opts.encoder || encodeURIComponent,
+  encodeKeys: !!opts.encodeKeys,
 })
 
 const stringify = (key, value, options) => {
@@ -21,7 +22,8 @@ const stringify = (key, value, options) => {
     return parts.join(options.delimiter)
   }
 
-  return `${key}=${options.encoder(value.toString())}`
+  const keyEncoder = options.encodeKeys ? options.encoder : (str) => str
+  return `${keyEncoder(key)}=${options.encoder(value.toString())}`
 }
 
 export default (obj, opts = {}) => {

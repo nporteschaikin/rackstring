@@ -25,3 +25,9 @@ test("stringifies nested array of objects", () => {
     stringify({ foo: [{ bar: ["a", "b"] }, { bar: ["a", "b"] }] })
   ).toEqual("foo[][bar][]=a&foo[][bar][]=b&foo[][bar][]=a&foo[][bar][]=b")
 })
+
+test("encodes keys if encodeKeys = true", () => {
+  expect(
+    stringify({ "foo/x": { "meow d": "bar" } }, { encodeKeys: true })
+  ).toEqual("foo%2Fx%5Bmeow%20d%5D=bar")
+})
