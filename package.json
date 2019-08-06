@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
