@@ -72,7 +72,11 @@ const normalizeParams = (params, key, value, depth) => {
 export default (str, opts = {}) => {
   const params = {}
   const options = normalizeOptions(opts)
-  const qs = str || ""
+  let qs = str || ""
+
+  if (opts["ignoreQueryPrefix"] && qs[0] === "?") {
+    qs = qs.slice(1)
+  }
 
   qs.split(options.delimiter).forEach((part) => {
     const [key, value] = part.split("=").map((p) => options.decoder(p))
