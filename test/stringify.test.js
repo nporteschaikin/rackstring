@@ -14,6 +14,12 @@ test("stringifies objects", () => {
   )
 })
 
+test("sorts keys when stringifying objects", () => {
+  expect(stringify({ foo: { car: "a", baz: "b" } })).toEqual(
+    "foo[baz]=b&foo[car]=a"
+  )
+})
+
 test("stringifies array of objects", () => {
   expect(
     stringify({ foo: [{ bar: "a", baz: "b" }, { bar: "c", baz: "d" }] })
