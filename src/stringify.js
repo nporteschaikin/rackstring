@@ -6,18 +6,14 @@ const normalizeOptions = (opts) => ({
   encodeKeys: !!opts.encodeKeys,
 })
 
-const formatValue = (value, encoder) => {
-  if (value === null || typeof value === "undefined") {
-    return encoder("")
-  }
-
-  return encoder(value)
-}
-
 const stringify = (key, value, options) => {
   if (isArray(value)) {
+    const arrKey = `${key}[]`
+
+    if (value.length === 0) return stringify(arrKey, null, options)
+
     return value
-      .map((child) => stringify(`${key}[]`, child, options))
+      .map((child) => stringify(arrKey, child, options))
       .join(options.delimiter)
   }
 
@@ -30,8 +26,12 @@ const stringify = (key, value, options) => {
     return parts.join(options.delimiter)
   }
 
-  const keyEncoder = options.encodeKeys ? options.encoder : (str) => str
-  return `${keyEncoder(key)}=${formatValue(value, options.encoder)}`
+  if ("undefined" === typeof value) return ""
+
+  const parts = [options.encodeKeys ? options.encoder(key) : key]
+  if (value !== null) parts.push(options.encoder(value))
+
+  return parts.join("=")
 }
 
 export default (obj, opts = {}) => {
