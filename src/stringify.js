@@ -23,9 +23,9 @@ const stringify = (key, value, options) => {
 
   if (isPlainObject(value)) {
     const parts = []
-    for (const childKey in value) {
+    Object.keys(value).sort().forEach(function(childKey) {
       parts.push(stringify(`${key}[${childKey}]`, value[childKey], options))
-    }
+    })
 
     return parts.join(options.delimiter)
   }
