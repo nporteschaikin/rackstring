@@ -33,16 +33,16 @@ test("encodes keys if encodeKeys = true", () => {
 })
 
 test("handles undefined values", () => {
-  expect(stringify({ foo: undefined, bar: "baz" })).toEqual("foo=&bar=baz")
+  expect(stringify({ foo: undefined, bar: "baz" })).toEqual("bar=baz")
 })
 
 test("handles null values", () => {
-  expect(stringify({ foo: null, bar: "baz" })).toEqual("foo=&bar=baz")
+  expect(stringify({ foo: null, bar: "baz" })).toEqual("foo&bar=baz")
   expect(stringify({ foo: { a: null, bar: "baz" } })).toEqual(
-    "foo[a]=&foo[bar]=baz"
+    "foo[a]&foo[bar]=baz"
   )
 })
 
 test("handles empty arrays", () => {
-  expect(stringify({ foo: [], bar: "baz" })).toEqual("bar=baz")
+  expect(stringify({ foo: [], bar: "baz" })).toEqual("foo[]&bar=baz")
 })

@@ -8,6 +8,10 @@ test("parses arrays", () => {
   expect(parse("a[]=b&a[]=c")).toEqual({ a: ["b", "c"] })
 })
 
+test("parses empty arrays", () => {
+  expect(parse("a[]=b&b[]")).toEqual({ a: ["b"], b: [] })
+})
+
 test("parses objects", () => {
   expect(parse("a[b]=c&a[d]=e")).toEqual({
     a: { b: "c", d: "e" },

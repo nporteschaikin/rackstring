@@ -44,7 +44,7 @@ const normalizeParams = (params, key, value, depth) => {
   } else if (after == "[]") {
     params[k] = params[k] || []
     assertArray(k, params[k])
-    params[k].push(value)
+    if (typeof value !== "undefined") params[k].push(value)
   } else {
     const afterMatch =
       after.match(/^\[\]\[([^\[\]]+)\]$/) || after.match(/^\[\](.+)$/)
