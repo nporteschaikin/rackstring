@@ -49,6 +49,13 @@ test("supports depth option", () => {
   })
 })
 
+test("parses booleans if `parseBooleans` is true", () => {
+  expect(parse("a[]=true&a[]=false&b=false", { parseBooleans: true })).toEqual({
+    a: [true, false],
+    b: false,
+  })
+})
+
 test("throws on type mismatch", () => {
   expect(() => parse("a=b&a[]=c")).toThrow(
     "Expected array (got String) for param a"

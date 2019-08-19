@@ -4,6 +4,7 @@ const normalizeOptions = (opts) => ({
   delimiter: opts.delimiter || "&",
   decoder: opts.decoder || decodeURIComponent,
   depth: opts.depth || 5,
+  parseBooleans: !!opts.parseBooleans,
 })
 
 const assertArray = (key, obj) => {
@@ -22,7 +23,18 @@ const assertPlainObject = (key, obj) => {
   }
 }
 
-const normalizeParams = (params, key, value, depth) => {
+const parseRawValue = (value, options) => {
+  if (
+    options.parseBooleans &&
+    ["true", "false"].includes(value.toString().toLowerCase())
+  ) {
+    return value.toLowerCase() === "true"
+  }
+
+  return value
+}
+
+const normalizeParams = (params, key, value, depth, options) => {
   if (depth <= 0) {
     throw new RangeError("Exceeded maximum depth")
   }
@@ -40,11 +52,12 @@ const normalizeParams = (params, key, value, depth) => {
   }
 
   if (after === "") {
-    params[k] = value
+    params[k] = parseRawValue(value, options)
   } else if (after == "[]") {
     params[k] = params[k] || []
     assertArray(k, params[k])
-    if (typeof value !== "undefined") params[k].push(value)
+    if (typeof value !== "undefined")
+      params[k].push(parseRawValue(value, options))
   } else {
     const afterMatch =
       after.match(/^\[\]\[([^\[\]]+)\]$/) || after.match(/^\[\](.+)$/)
@@ -55,14 +68,16 @@ const normalizeParams = (params, key, value, depth) => {
       const last = params[k][params[k].length - 1]
 
       if (isPlainObject(last) && !objectHas(last, afterMatch[1])) {
-        normalizeParams(last, afterMatch[1], value, depth - 1)
+        normalizeParams(last, afterMatch[1], value, depth - 1, options)
       } else {
-        params[k].push(normalizeParams({}, afterMatch[1], value, depth - 1))
+        params[k].push(
+          normalizeParams({}, afterMatch[1], value, depth - 1, options)
+        )
       }
     } else {
       params[k] = params[k] || {}
       assertPlainObject(k, params[k])
-      normalizeParams(params[k], after, value, depth - 1)
+      normalizeParams(params[k], after, value, depth - 1, options)
     }
   }
 
@@ -76,7 +91,7 @@ export default (str, opts = {}) => {
 
   qs.split(options.delimiter).forEach((part) => {
     const [key, value] = part.split("=").map((p) => options.decoder(p))
-    normalizeParams(params, key, value, options.depth)
+    normalizeParams(params, key, value, options.depth, options)
   })
 
   return params
