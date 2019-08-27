@@ -26,9 +26,14 @@ const assertPlainObject = (key, obj) => {
 const parseRawValue = (value, options) => {
   if (
     options.parseBooleans &&
+    value !== null &&
     ["true", "false"].includes(value.toString().toLowerCase())
   ) {
     return value.toLowerCase() === "true"
+  }
+
+  if (typeof value === "undefined") {
+    return null
   }
 
   return value

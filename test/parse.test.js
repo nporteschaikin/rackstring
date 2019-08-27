@@ -56,6 +56,13 @@ test("parses booleans if `parseBooleans` is true", () => {
   })
 })
 
+test("handles null", () => {
+  expect(parse("a=b&b")).toEqual({
+    a: "b",
+    b: null,
+  })
+})
+
 test("throws on type mismatch", () => {
   expect(() => parse("a=b&a[]=c")).toThrow(
     "Expected array (got String) for param a"
