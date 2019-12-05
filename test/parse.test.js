@@ -43,6 +43,14 @@ test("parses array of objects with objects", () => {
   })
 })
 
+test("ignores leading ? on string when configured", () => {
+  expect(parse("?foo=bar", { ignoreQueryPrefix: true })).toEqual({ foo: "bar" })
+})
+
+test("keeps leading ? by default", () => {
+  expect(parse("?foo=bar")).toEqual({ "?foo": "bar" })
+})
+
 test("supports depth option", () => {
   expect(parse("a[][x]=b&a[][y]=c&a[][x]=d&a[][y]=e")).toEqual({
     a: [{ x: "b", y: "c" }, { x: "d", y: "e" }],
